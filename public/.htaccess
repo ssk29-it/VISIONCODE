@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Arahkan file statis (gambar, css, js, storage)
+    RewriteRule ^(storage|build|images|css|js|assets)/(.*)$ laravel/public/$1/$2 [L,NC]
+
+    # Arahkan semua request lainnya ke Laravel index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ laravel/public/index.php [L,QSA]
+</IfModule>
