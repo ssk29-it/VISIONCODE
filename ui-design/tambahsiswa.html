@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detail Siswa | BK Care SMK Budi Bakti Ciwidey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 0% 0%, rgba(79, 141, 184, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 100% 0%, rgba(111, 174, 217, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 100% 100%, rgba(79, 141, 184, 0.06) 0%, transparent 50%),
+                  radial-gradient(circle at 0% 100%, rgba(111, 174, 217, 0.06) 0%, transparent 50%),
+                  linear-gradient(145deg, #f8fcff 0%, #f0f7fc 100%);
+    }
+
+    /* Glassmorphism Effects */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 20px 40px -15px rgba(79, 141, 184, 0.15);
+    }
+
+    .glass-card-deep {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 25px 50px -12px rgba(23, 35, 91, 0.25);
+    }
+
+    /* Text Gradient - BRAND COLORS */
+    .text-gradient {
+      background: linear-gradient(145deg, #17235b 0%, #2a4a7a 50%, #4f8db8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 8s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Card Hover Effects */
+    .dashboard-card {
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 50px -15px rgba(79, 141, 184, 0.25);
+    }
+
+    /* Sidebar Menu Active - BRAND BLUE */
+    .menu-active {
+      background: linear-gradient(90deg, #4f8db8, #6faed9);
+      color: white;
+      box-shadow: 0 10px 20px -5px rgba(79, 141, 184, 0.3);
+    }
+
+    .menu-item {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .menu-item:hover {
+      background: rgba(79, 141, 184, 0.1);
+      color: #17235b;
+    }
+
+    .submenu-item {
+      transition: all 0.2s ease;
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+
+    .submenu-item:hover {
+      background: #f1f5f9;
+      color: #4F8DB8;
+    }
+
+    /* Custom Scrollbar - BRAND BLUE */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #4f8db8;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #17235b;
+    }
+
+    /* Floating Animation */
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* SMK Badge - BRAND YELLOW */
+    .smk-badge {
+      background: rgba(250, 204, 21, 0.15);
+      color: #17235b;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+    }
+
+    /* Button Primary - BRAND BLUE */
+    .btn-primary {
+      background: linear-gradient(145deg, #4f8db8, #6faed9);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(145deg, #3a6b8c, #4f8db8);
+      box-shadow: 0 10px 20px -5px rgba(79, 141, 184, 0.4);
+    }
+
+    /* Form Styles */
+    .form-input {
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: #4F8DB8;
+      box-shadow: 0 0 0 3px rgba(79, 141, 184, 0.1);
+    }
+
+    /* RESPONSIVE FIXES */
+    .sidebar-desktop {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .inner-sidebar {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-mobile {
+      position: fixed;
+      left: -100%;
+      top: 0;
+      width: 85%;
+      max-width: 320px;
+      height: 100vh;
+      z-index: 50;
+      transition: left 0.3s ease;
+    }
+
+    .sidebar-mobile.active {
+      left: 0;
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 40;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans text-gray-700 overflow-x-hidden">
+
+  <!-- PROFILE POPUP -->
+  <div id="profilePopup" class="profile-popup z-[9999]" style="display: none;">
+    <!-- Sama seperti dashboard admin -->
+  </div>
+
+  <!-- POPUP OVERLAY -->
+  <div id="popupOverlay" class="popup-overlay" onclick="closeProfilePopup()" style="display: none;"></div>
+
+  <!-- MOBILE SIDEBAR OVERLAY -->
+  <div id="mobileOverlay" class="mobile-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- MOBILE SIDEBAR -->
+  <div id="mobileSidebar" class="sidebar-mobile">
+    <div class="h-full w-full glass-card-deep rounded-r-2xl p-5 flex flex-col overflow-y-auto border-r border-white/40 shadow-2xl">
+      
+      <!-- LOGO & IDENTITAS SMK -->
+      <div class="flex items-center gap-3 pb-5 border-b border-[#4F8DB8]/20">
+        <div class="relative group">
+          <img src="img/LOGO BK CARE (1).png" alt="BK Care Admin" class="h-10 w-auto relative z-10"
+               onerror="this.src='https://via.placeholder.com/120x48/17235b/ffffff?text=BK+CARE'" />
+        </div>
+        <div class="flex flex-col">
+          <span class="text-sm font-extrabold text-[#17235b]">BK CARE</span>
+          <span class="smk-badge text-[10px] px-2 py-0.5 rounded-full">
+            SMK Budi Bakti Ciwidey
+          </span>
+        </div>
+      </div>
+
+      <!-- MENU NAVIGASI MOBILE -->
+      <nav class="flex-1 overflow-y-auto py-5 space-y-1 text-sm">
+        <a href="dashboardadmin.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+          <i class="fa-solid fa-chart-pie w-5 text-center text-[#4F8DB8]"></i>
+          <span>Dashboard</span>
+        </a>
+
+        <!-- Data Master -->
+        <div class="space-y-1">
+          <button onclick="toggleMobileMenu('dataMasterMobile')" 
+            class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all menu-active">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-database w-5 text-center text-white"></i>
+              <span class="font-medium text-white">Data Master</span>
+            </div>
+            <i class="fas fa-chevron-down text-xs text-white transition-transform duration-300" id="chevron-dataMasterMobile"></i>
+          </button>
+          <div id="dataMasterMobile" class="ml-6 mt-1 space-y-1">
+            <a href="dataguru.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+              <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span class="text-sm">Data Guru BK</span>
+            </a>
+            <a href="datawali.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+              <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span class="text-sm">Data Wali Kelas</span>
+            </a>
+            <a href="datasiswa.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#4F8DB8]/10 text-[#4F8DB8] font-medium pl-9">
+              <span class="w-1 h-1 bg-[#4F8DB8] rounded-full"></span>
+              <span class="text-sm">Data Siswa</span>
+              <span class="ml-auto bg-[#4F8DB8]/10 text-[#4F8DB8] text-[10px] px-1.5 py-0.5 rounded-full">1.247</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Sistem Konseling -->
+        <div class="space-y-1">
+          <button onclick="toggleMobileMenu('konselingMobile')" 
+            class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-headset w-5 text-center text-[#4F8DB8]"></i>
+              <span class="font-medium">Sistem Konseling</span>
+            </div>
+            <i class="fas fa-chevron-down text-xs text-gray-500 transition-transform duration-300" id="chevron-konselingMobile"></i>
+          </button>
+          <div id="konselingMobile" class="ml-6 mt-1 space-y-1 hidden">
+            <a href="pesankonseling.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+              <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span class="text-sm">Pengajuan Konseling</span>
+              <span class="ml-auto bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">3</span>
+            </a>
+            <a href="jadwal.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+              <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span class="text-sm">Jadwal Konseling</span>
+            </a>
+            <a href="riwayat.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+              <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+              <span class="text-sm">Riwayat Konseling</span>
+            </a>
+          </div>
+        </div>
+
+        <a href="point.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+          <i class="fa-solid fa-triangle-exclamation w-5 text-center text-[#4F8DB8]"></i>
+          <span class="font-medium">Point Pelanggaran</span>
+          <span class="ml-auto bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full">42</span>
+        </a>
+
+        <a href="crudmateri.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+          <i class="fa-solid fa-book-open w-5 text-center text-[#4F8DB8]"></i>
+          <span class="font-medium">Materi Edukasi</span>
+        </a>
+
+        <a href="laporan.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+          <i class="fa-solid fa-file-lines w-5 text-center text-[#4F8DB8]"></i>
+          <span class="font-medium">Laporan Konseling</span>
+        </a>
+
+        <div class="border-t border-[#4F8DB8]/20 my-4"></div>
+
+        <a href="index.html" target="_blank" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+          <i class="fa-solid fa-globe w-5 text-center text-[#4F8DB8]"></i>
+          <span class="font-medium">View Website</span>
+        </a>
+      </nav>
+
+      <!-- PROFILE ADMIN MOBILE -->
+      <div onclick="openProfilePopup()" class="profile-card rounded-2xl p-4 mt-2 relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl group"
+           style="background: linear-gradient(145deg, #17235b, #1e3a5f);">
+        <div class="relative z-10 flex items-center gap-3">
+          <div class="relative">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#4F8DB8] to-[#6FAED9] p-1">
+              <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Admin+BK&background=17235b&color=fff&size=80&bold=true" alt="Admin" class="w-full h-full object-cover" />
+              </div>
+            </div>
+            <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center">
+              <i class="fa-solid fa-check text-white text-[8px]"></i>
+            </span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2">
+              <h4 class="text-white font-bold text-sm">Admin BK</h4>
+              <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full text-white">Super</span>
+            </div>
+            <p class="text-white/80 text-xs mb-0.5 truncate">admin.bk@smkbudibakti.sch.id</p>
+          </div>
+          <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-white group-hover:bg-white/40 transition-all">
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex min-h-screen relative">
+    
+    <!-- DECORATIVE BACKGROUND ELEMENTS -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div class="absolute top-20 left-10 w-96 h-96 bg-[#4F8DB8]/10 rounded-full blur-3xl floating"></div>
+      <div class="absolute bottom-20 right-10 w-[500px] h-[500px] bg-[#6FAED9]/10 rounded-full blur-3xl floating" style="animation-delay: -3s"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-[#4F8DB8]/5 to-[#6FAED9]/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- ================= SIDEBAR DESKTOP - SAMA PERSIS DENGAN DASHBOARD ================= -->
+    <aside class="hidden lg:block sidebar-desktop z-10">
+      <div class="inner-sidebar glass-card-deep rounded-2xl m-4 p-5 w-80 border border-white/40 shadow-2xl">
+        
+        <!-- LOGO & BRAND -->
+        <div class="flex items-center gap-3 pb-5 border-b border-[#4F8DB8]/20">
+          <div class="relative group">
+            <div class="absolute -inset-2 bg-gradient-to-r from-[#4F8DB8]/30 to-[#6FAED9]/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <img src="img/LOGO BK.png" alt="BK Care Admin" class="h-10 w-auto relative z-10"
+                 onerror="this.src='https://via.placeholder.com/120x48/17235b/ffffff?text=BK+CARE'" />
+          </div>
+          <div class="flex flex-col">
+            <span class="smk-badge text-[10px] px-2 py-0.5 rounded-full">
+              SMK Budi Bakti Ciwidey
+            </span>
+          </div>
+        </div>
+
+        <!-- MENU NAVIGASI DESKTOP -->
+        <nav class="flex-1 overflow-y-auto py-5 space-y-1 text-sm">
+          
+          <!-- Dashboard -->
+          <a href="dashboardadmin.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <i class="fa-solid fa-chart-pie w-5 text-center text-[#4F8DB8]"></i>
+            <span class="font-medium">Dashboard</span>
+          </a>
+
+          <!-- Data Master - ACTIVE -->
+          <div class="space-y-1">
+            <button onclick="toggleMenu('dataMaster')" 
+              class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all menu-active">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-database w-5 text-center text-white"></i>
+                <span class="font-medium text-white">Data Master</span>
+              </div>
+              <i class="fas fa-chevron-down text-xs text-white transition-transform duration-300" id="chevron-dataMaster"></i>
+            </button>
+            <div id="dataMaster" class="ml-6 mt-1 space-y-1">
+              <a href="dataguru.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span class="text-sm">Data Guru BK</span>
+              </a>
+              <a href="datawali.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span class="text-sm">Data Wali Kelas</span>
+              </a>
+              <a href="datasiswa.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#4F8DB8]/10 text-[#4F8DB8] font-medium pl-9">
+                <span class="w-1 h-1 bg-[#4F8DB8] rounded-full"></span>
+                <span class="text-sm">Data Siswa</span>
+                <span class="ml-auto bg-[#4F8DB8]/10 text-[#4F8DB8] text-[10px] px-1.5 py-0.5 rounded-full">1.247</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Sistem Konseling -->
+          <div class="space-y-1">
+            <button onclick="toggleMenu('konseling')" 
+              class="menu-item w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+              <div class="flex items-center gap-3">
+                <i class="fa-solid fa-headset w-5 text-center text-[#4F8DB8]"></i>
+                <span class="font-medium">Sistem Konseling</span>
+              </div>
+              <i class="fas fa-chevron-down text-xs text-gray-500 transition-transform duration-300" id="chevron-konseling"></i>
+            </button>
+            <div id="konseling" class="ml-6 mt-1 space-y-1 hidden">
+              <a href="pesankonseling.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span class="text-sm">Pengajuan Konseling</span>
+                <span class="ml-auto bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">3</span>
+              </a>
+              <a href="jadwal.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span class="text-sm">Jadwal Konseling</span>
+              </a>
+              <a href="riwayat.html" class="submenu-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 hover:bg-[#4F8DB8]/10 transition-all pl-9">
+                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                <span class="text-sm">Riwayat Konseling</span>
+              </a>
+            </div>
+          </div>
+
+          <a href="point.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <i class="fa-solid fa-triangle-exclamation w-5 text-center text-[#4F8DB8]"></i>
+            <span class="font-medium">Point Pelanggaran</span>
+            <span class="ml-auto bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full">42</span>
+          </a>
+
+          <a href="crudmateri.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <i class="fa-solid fa-book-open w-5 text-center text-[#4F8DB8]"></i>
+            <span class="font-medium">Materi Edukasi</span>
+          </a>
+
+          <a href="laporan.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <i class="fa-solid fa-file-lines w-5 text-center text-[#4F8DB8]"></i>
+            <span class="font-medium">Laporan Konseling</span>
+          </a>
+
+          <div class="border-t border-[#4F8DB8]/20 my-4"></div>
+
+          <a href="index.html" target="_blank" class="menu-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-[#4F8DB8]/10 transition-all">
+            <i class="fa-solid fa-globe w-5 text-center text-[#4F8DB8]"></i>
+            <span class="font-medium">View Website</span>
+          </a>
+        </nav>
+
+        <!-- PROFILE ADMIN - DESKTOP (SIMPLE ELEGANT) -->
+        <div class="relative mt-2 group">
+          <div onclick="openProfilePopup()" 
+               class="relative overflow-hidden cursor-pointer rounded-2xl p-4 bg-white hover:bg-gray-50 border border-gray-200/80 hover:border-[#4F8DB8]/30 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="relative z-10 flex items-center gap-3">
+              <!-- AVATAR -->
+              <div class="relative">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#4F8DB8]/10 to-[#6FAED9]/10 flex items-center justify-center overflow-hidden border border-[#4F8DB8]/20">
+                  <img src="https://ui-avatars.com/api/?name=Admin+BK&background=4F8DB8&color=fff&size=80&bold=true" 
+                       class="w-full h-full object-cover" alt="Admin BK" />
+                </div>
+                <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+              </div>
+
+              <!-- INFO -->
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <h4 class="text-gray-900 font-semibold text-sm">Admin BK</h4>
+                  <span class="bg-[#4F8DB8]/10 text-[#4F8DB8] text-[10px] px-2 py-0.5 rounded-full font-medium">
+                    Super
+                  </span>
+                </div>
+                <div class="flex items-center gap-1 mt-0.5">
+                  <i class="fa-solid fa-location-dot text-[#4F8DB8] text-[9px]"></i>
+                  <span class="text-gray-400 text-[9px]">SMK Budi Bakti Ciwidey</span>
+                </div>
+              </div>
+
+              <!-- ARROW -->
+              <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 group-hover:bg-[#4F8DB8] group-hover:text-white transition-all duration-300">
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- LOGOUT BUTTON -->
+          <button onclick="logout()" 
+                  class="mt-2 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-medium bg-white border border-gray-200 text-gray-600 hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all duration-200">
+            <i class="fa-solid fa-right-from-bracket text-[11px]"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT - DETAIL SISWA ================= -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 relative z-10 lg:ml-0">
+      
+      <!-- TOP BAR -->
+      <div class="glass-card-deep rounded-xl md:rounded-2xl p-3 md:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-white/40 shadow-xl">
+        <div class="flex items-center gap-2 md:gap-3">
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleSidebar()" class="lg:hidden w-9 h-9 md:w-10 md:h-10 bg-white/80 backdrop-blur-sm rounded-xl border border-white/50 flex items-center justify-center text-[#17235b] hover:bg-[#4F8DB8] hover:text-white transition-all">
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#4F8DB8] to-[#6FAED9] rounded-xl flex items-center justify-center text-white text-lg md:text-xl shadow-lg">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div>
+            <h2 class="font-extrabold text-[#17235b] text-base md:text-xl">
+              <span class="text-gradient">Detail Siswa</span>
+            </h2>
+            <p class="text-[10px] md:text-xs text-gray-500 flex items-center gap-1 md:gap-2">
+              <i class="fa-regular fa-folder-open text-[#4F8DB8]"></i>
+              <span>Informasi lengkap data siswa</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="flex items-center gap-2 text-xs text-gray-400 self-end sm:self-auto">
+          <span>Admin</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          <span>Data Master</span>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          <a href="data-siswa.html" class="hover:text-[#4F8DB8] transition">Data Siswa</a>
+          <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          <span class="text-[#4F8DB8] font-medium">Detail Siswa</span>
+        </div>
+      </div>
+
+      <!-- CARD FORM DETAIL -->
+      <div class="glass-card-deep rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/40 shadow-xl">
+        
+        <!-- HEADER CARD -->
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-[#4F8DB8]/20">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#4F8DB8]/10 rounded-lg flex items-center justify-center">
+              <i class="fa-solid fa-id-card text-[#4F8DB8] text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-[#17235b]">Form Biodata Siswa</h3>
+              <p class="text-xs text-gray-500">Isi data dengan lengkap dan benar</p>
+            </div>
+          </div>
+          <span class="bg-emerald-100 text-emerald-700 text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-1">
+            <i class="fa-regular fa-circle-check"></i>
+            Aktif
+          </span>
+        </div>
+
+        <!-- NAMA LENGKAP -->
+        <div class="mb-6">
+          <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-user text-[#4F8DB8] mr-1"></i> Nama Lengkap
+          </label>
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-20"></div>
+            <input
+              type="text"
+              value="Budi Santoso"
+              class="relative w-full h-10 px-4 rounded-lg border border-white/50 bg-white/90 backdrop-blur-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- FOTO + FORM GRID -->
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          
+          <!-- FOTO SECTION -->
+          <div class="w-full lg:w-64 flex-shrink-0">
+            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">
+              <i class="fa-solid fa-camera text-[#4F8DB8] mr-1"></i> Foto Siswa
+            </label>
+            <div class="relative group">
+              <div class="absolute -inset-1 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-xl blur opacity-30 group-hover:opacity-50 transition"></div>
+              <div class="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden border-2 border-white shadow-lg">
+                <img 
+                  src="img/siswa.jpg" 
+                  alt="Foto Siswa"
+                  class="w-full h-full object-cover"
+                  onerror="this.src='https://ui-avatars.com/api/?name=Budi+Santoso&background=4F8DB8&color=fff&size=200'"
+                />
+              </div>
+            </div>
+            <div class="mt-3 flex justify-center">
+              <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-600 hover:bg-[#4F8DB8] hover:text-white hover:border-[#4F8DB8] transition-all duration-200 flex items-center gap-2 shadow-sm">
+                <i class="fa-solid fa-upload"></i>
+                Tambah Foto
+              </button>
+            </div>
+          </div>
+
+          <!-- FORM BIODATA GRID -->
+          <div class="flex-1">
+            <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-3">
+              <i class="fa-solid fa-address-card text-[#4F8DB8] mr-1"></i> Biodata Diri
+            </label>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              
+              <!-- NIPD -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-id-card text-[#4F8DB8] mr-1"></i> NIPD
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="198234234" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- Jenis Kelamin -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-venus-mars text-[#4F8DB8] mr-1"></i> Jenis Kelamin
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <select class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm appearance-none">
+                    <option value="L" selected>Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                </div>
+              </div>
+
+              <!-- Kelas -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-building text-[#4F8DB8] mr-1"></i> Kelas
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="XI RPL 1" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- Jurusan -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-code text-[#4F8DB8] mr-1"></i> Jurusan
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <select class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm appearance-none">
+                    <option value="RPL" selected>Rekayasa Perangkat Lunak</option>
+                    <option value="BDP">Bisnis Daring Pemasaran</option>
+                    <option value="OTKP">Desain Komunikasi Visual</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-envelope text-[#4F8DB8] mr-1"></i> Email
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="email" 
+                    value="uwbgwqg@gmail.com" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- No HP -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-phone text-[#4F8DB8] mr-1"></i> No HP
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="082345678901" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- Alamat - Full Width -->
+              <div class="md:col-span-2">
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-location-dot text-[#4F8DB8] mr-1"></i> Alamat
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="Jl. Merdeka No. 10, Ciwidey, Kab. Bandung" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- Tempat, Tanggal Lahir -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-calendar text-[#4F8DB8] mr-1"></i> Tempat Lahir
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="Bandung" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-cake text-[#4F8DB8] mr-1"></i> Tanggal Lahir
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="date" 
+                    value="2006-05-15" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- NISN -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-qrcode text-[#4F8DB8] mr-1"></i> NISN
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <input 
+                    type="text" 
+                    value="0065432189" 
+                    class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm"
+                  />
+                </div>
+              </div>
+
+              <!-- Agama -->
+              <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">
+                  <i class="fa-regular fa-place-of-worship text-[#4F8DB8] mr-1"></i> Agama
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] rounded-lg blur opacity-10"></div>
+                  <select class="relative w-full h-9 px-3 rounded-lg border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#4F8DB8] focus:border-transparent transition-all text-sm appearance-none">
+                    <option value="Islam" selected>Islam</option>
+                    <option value="Kristen">Kristen</option>
+                    <option value="Katolik">Katolik</option>
+                    <option value="Hindu">Hindu</option>
+                    <option value="Buddha">Buddha</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUTTON ACTION -->
+        <div class="mt-8 pt-6 border-t border-[#4F8DB8]/20 flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <a href="datasiswa.html" class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 text-sm font-medium">
+            <i class="fa-solid fa-arrow-left"></i>
+            Kembali
+          </a>
+          <button class="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#4F8DB8] to-[#6FAED9] text-white hover:shadow-lg hover:shadow-[#4F8DB8]/30 transition-all duration-300 hover:scale-[1.02] text-sm font-medium">
+            <i class="fa-regular fa-floppy-disk"></i>
+            Simpan
+          </button>
+          <button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white border border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 transition-all duration-200 text-sm font-medium">
+            <i class="fa-regular fa-trash-can"></i>
+            Hapus
+          </button>
+        </div>
+      </div>
+
+      <!-- FOOTER ADMIN -->
+      <div class="text-center text-[9px] md:text-xs text-gray-400 pt-3 md:pt-4 pb-1 md:pb-2 flex flex-wrap items-center justify-center gap-2 md:gap-4">
+        <span>© 2026 BK Care For School Life - VISIONCODE</span>
+        <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+        <span class="text-[#4F8DB8] font-medium">SMK Budi Bakti Ciwidey</span>
+        <span class="w-1 h-1 bg-gray-300 rounded-full hidden xs:inline"></span>
+        <span class="text-gray-500 hidden xs:inline">Dashboard v2.0</span>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // TOGGLE MENU DESKTOP
+    function toggleMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      const chevron = document.getElementById(`chevron-${menuId}`);
+
+      if (menu && chevron) {
+        menu.classList.toggle("hidden");
+
+        if (menu.classList.contains("hidden")) {
+          chevron.style.transform = "rotate(0deg)";
+        } else {
+          chevron.style.transform = "rotate(180deg)";
+        }
+      }
+    }
+
+    // TOGGLE MENU MOBILE
+    function toggleMobileMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      const chevron = document.getElementById(`chevron-${menuId}`);
+
+      if (menu && chevron) {
+        menu.classList.toggle("hidden");
+
+        if (menu.classList.contains("hidden")) {
+          chevron.style.transform = "rotate(0deg)";
+        } else {
+          chevron.style.transform = "rotate(180deg)";
+        }
+      }
+    }
+
+    // TOGGLE SIDEBAR MOBILE
+    function toggleSidebar() {
+      const sidebar = document.getElementById("mobileSidebar");
+      const overlay = document.getElementById("mobileOverlay");
+
+      if (sidebar && overlay) {
+        sidebar.classList.toggle("active");
+        overlay.classList.toggle("active");
+
+        if (sidebar.classList.contains("active")) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "auto";
+        }
+      }
+    }
+
+    // PROFILE POPUP FUNCTIONS
+    function openProfilePopup() {
+      alert("Profile popup akan dibuka (integrasikan dengan komponen popup)");
+    }
+
+    function closeProfilePopup() {
+      // Implementasi close popup
+    }
+
+    // LOGOUT FUNCTION
+    function logout() {
+      if (confirm("Apakah Anda yakin ingin logout?")) {
+        window.location.href = "login.html";
+      }
+    }
+
+    // CLOSE MOBILE SIDEBAR ON RESIZE
+    window.addEventListener("resize", function () {
+      if (window.innerWidth >= 1024) {
+        const sidebar = document.getElementById("mobileSidebar");
+        const overlay = document.getElementById("mobileOverlay");
+        if (sidebar && sidebar.classList.contains("active")) {
+          sidebar.classList.remove("active");
+          overlay.classList.remove("active");
+          document.body.style.overflow = "auto";
+        }
+      }
+    });
+
+    // AUTO EXPAND DATA MASTER SUBMENU (karena halaman Detail Siswa)
+    document.addEventListener("DOMContentLoaded", function() {
+      // Untuk desktop
+      const dataMasterMenu = document.getElementById('dataMaster');
+      const dataMasterChevron = document.getElementById('chevron-dataMaster');
+      if (dataMasterMenu && dataMasterChevron) {
+        dataMasterMenu.classList.remove('hidden');
+        dataMasterChevron.style.transform = 'rotate(180deg)';
+      }
+
+      // Untuk mobile
+      const dataMasterMobile = document.getElementById('dataMasterMobile');
+      const dataMasterChevronMobile = document.getElementById('chevron-dataMasterMobile');
+      if (dataMasterMobile && dataMasterChevronMobile) {
+        dataMasterMobile.classList.remove('hidden');
+        dataMasterChevronMobile.style.transform = 'rotate(180deg)';
+      }
+    });
+  </script>
+
+</body>
+</html>
